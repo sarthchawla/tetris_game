@@ -5,12 +5,14 @@ public class data {
     public String dir;
     public data start, restart;
     public data next = null;
+    public int lines[];
 
-    void data1(char bd[][], int sd[][], String d) {
+    void data1(char bd[][], int sd[][], String d, int l[]) {
         int i, j;
         board = new char[22][22];
         shape = new int[4][2];
         dir = new String(d);
+        lines = new int[21];
         for (i = 0; i < 4; i++) {
             shape[i][0] = sd[i][0];
             shape[i][1] = sd[i][1];
@@ -19,6 +21,9 @@ public class data {
             for (j = 0; j < 22; j++) {
                 board[i][j] = bd[i][j];
             }
+        }
+        for (i = 0; i < 21; i++) {
+            lines[i] = l[i];
         }
     }
 
@@ -31,9 +36,9 @@ public class data {
         }
     }
 
-    void push(char bd[][], int sd[][], String d) {
+    void push(char bd[][], int sd[][], String d, int lines[]) {
         data n = new data();
-        n.data1(bd, sd, d);
+        n.data1(bd, sd, d, lines);
         n.next = null;
         if (start == null) {
             start = n;
