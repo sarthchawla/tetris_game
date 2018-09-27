@@ -39,32 +39,30 @@ class load {
     public static void main(String[] args) {
 
         // Declarations
+        System.out.println("\t\tTETRIS GAME\nd=left a=right s=down u=clockwise i=anticlockwise\n\t\tz=undo x=redo\n");
+
+        Scanner sc = new Scanner(System.in);
+        String move = new String();
+        board myboard = new board();
+        shapes active = new shapes();
+        int check_move = 0;
+        Exception p = new Exception();
+        data start = new data(), shift = new data(), undo = new data();
+        // intial generation of block
+        myboard.boundries();
+        active.generate();// random shape generator
+        myboard.set_shape(active.a, move);
+        myboard.print_board();
+        System.out.println("SCORE = " + myboard.score + "\nenter your move");
+        move = sc.next();
+        int m = 1, flag_reverse = 0;
+        start.push(myboard.a, active.a, active.dir, myboard.lines);
         try {
             Game game = new Game();
-            System.out.println(
-                    "\t\tTETRIS GAME\nd=left a=right s=down u=clockwise i=anticlockwise\n\t\t\tz=undo x=redo\n");
-
-            Scanner sc = new Scanner(System.in);
-            String move = new String();
-            board myboard = new board();
-            shapes active = new shapes();
-            int check_move;
-            data start = new data(), shift = new data(), undo = new data();
-            // intial generation of block
-            myboard.boundries();
-            active.generate();// random shape generator
-            myboard.set_shape(active.a, move);
-            myboard.print_board();
-            System.out.println("SCORE = " + myboard.score + "\nenter your move");
-            move = sc.next();
-            int m = 1, flag_reverse = 0;
-            start.push(myboard.a, active.a, active.dir, myboard.lines);
+            // loop_break:
             while (!move.equals("q")) {
                 flag_reverse = 0;
-                // System.out.print("\033[H\033[2J");// CLEAR SCREEN
                 System.out.print("\033[H\033[2J");
-                // System.out.flush();
-                // game.terminal.clearScreen();
                 if (move.equals("z")) {
                     undo = new data();
                     while (move.equals("z") || move.equals("x")) {
@@ -90,7 +88,8 @@ class load {
                         }
                         System.out.print("\033[H\033[2J");
                         myboard.print_board();
-                        System.out.println("SCORE = " + myboard.score + "\nenter your move");
+                        System.out.println(
+                                "SCORE = " + myboard.score + "\npress z or x + enter to undo and redo respectively");
                         move = sc.next();
                         flag_reverse = 1;
                     }
@@ -123,33 +122,16 @@ class load {
                     System.out.print("\033[H\033[2J");
                 }
                 myboard.print_board();
-                if (check_move == -1) {
+                if (check_move == 3) {
                     // System.out.print("\033[H\033[2J");
                     System.out.println("GAME OVER\nSCORE = " + myboard.score);
-                    break;
+                    move = new String("q");
+                    throw p;
                 }
                 System.out.println("SCORE = " + myboard.score + "\nenter your move");
-                m = 1;
-                // if (move.equals("s")) {
-                // try {
-                // Thread.sleep(500);
-                // } catch (InterruptedException e) {
-                // }
-                // }
-
-                // try {
-                // m = System.in.available();
-                // } catch (IOException e) {
-
-                // }
-                // game = new Game();
-                // game.terminal.flush();
-                // KeyType key;
+                System.out.println(check_move + "****");
                 if (move.equals("s")) {
-                    // try {
                     Thread.sleep(700);
-                    // } catch (InterruptedException e) {
-                    // }
                 }
                 KeyStroke k1 = game.getNonBlockingInput();
                 if (k1 == null) {
@@ -177,35 +159,15 @@ class load {
                     if (k1.getCharacter() == 'i') {
                         move = new String("i");
                     }
+                    if (k1.getCharacter() == 'q') {
+                        move = new String("q");
+                    }
                 }
-                // System.out.println(check_move + "*" + m);
-
-                // if (m != 0) {
-                // move = sc.next();
-                // // m=0;
-                // }
-                // if (m == 0) {
-                // move = new String("s");
-                // // break;
-                // }
-                // if (move.equals(""))
-                // move = new String("s");
-                // if (m != 0) {
             }
-            sc.close();
-            // game.terminal.stopScreen();
         } catch (Exception e) {
-
+            System.out.println("Press any key + enter to exit...");
+            move = sc.next();
         }
-        // Runtime.getRuntime().addShutdownHook(new Thread() {
-        // public void run() {
-        // try {
-        // Game game = new Game();
-        // } catch (Exception e) {
-        // e.printStackTrace();
-        // }
-        // }
-        // });
-        // System.out.print("\033[H\033[2J");
+        sc.close();
     }
 }

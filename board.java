@@ -84,18 +84,16 @@ class board {
                 // System.out.println(s[i][0] + " " + s[i][1]);
                 i = 0;
                 while (i < 4) {
-                    if (s[i][0] == 0) {
-                        return -1;
-                    }
                     a[s[i][0]][s[i][1]] = '*';
                     lines[s[i][0]]++;
                     // System.out.println(s[i][0] + " " + s[i][1] + " " + lines[s[i][0]]);
-
+                    if (s[i][0] == 4) {
+                        return 3;
+                    }
                     if (lines[s[i][0]] == 20) {
                         flag = 1;
                         d = i;
                     }
-
                     i++;
                 }
                 if (flag == 1) {
