@@ -53,7 +53,7 @@ class load {
         active.generate();// random shape generator
         myboard.set_shape(active.a, move);
         myboard.print_board();
-        System.out.println("SCORE = " + myboard.score + "\nenter your move");
+        System.out.println("SCORE = " + myboard.score + "\npress s + enter to start the game");
         move = sc.next();
         int m = 1, flag_reverse = 0;
         start.push(myboard.a, active.a, active.dir, myboard.lines);
@@ -87,6 +87,7 @@ class load {
                             start.push(myboard.a, active.a, active.dir, myboard.lines);
                         }
                         System.out.print("\033[H\033[2J");
+                        System.out.println("\t\tTETRIS GAME\n");
                         myboard.print_board();
                         System.out.println(
                                 "SCORE = " + myboard.score + "\npress z or x + enter to undo and redo respectively");
@@ -121,6 +122,8 @@ class load {
                     myboard.clean_board(active.a);
                     System.out.print("\033[H\033[2J");
                 }
+                System.out.println(
+                        "\t\tTETRIS GAME\nd=left a=right s=down u=clockwise i=anticlockwise\n\t\tz=undo x=redo\n");
                 myboard.print_board();
                 if (check_move == 3) {
                     // System.out.print("\033[H\033[2J");
@@ -129,7 +132,7 @@ class load {
                     throw p;
                 }
                 System.out.println("SCORE = " + myboard.score + "\nenter your move");
-                System.out.println(check_move + "****");
+                // System.out.println(check_move + "****");
                 if (move.equals("s")) {
                     Thread.sleep(700);
                 }
@@ -143,6 +146,7 @@ class load {
                     }
                     if (k1.getCharacter() == 's') {
                         move = new String("s");
+                        // k1 = game.getNonBlockingInput();
                     }
                     if (k1.getCharacter() == 'd') {
                         move = new String("d");
