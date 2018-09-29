@@ -48,32 +48,25 @@ class board {
 
     void shift_down(int row) {
         int i, j = 1;
-        // System.out.println(row + "*");
-
         for (i = row; i != 0; i--) {
+            lines[i] = 0;
             for (j = 1; j < w - 1; j++) {
-                // System.out.println(" " + i + " " + j);
                 a[i][j] = a[i - 1][j];
-                if (i == row && a[i][j] == '*') {
-                    lines[row]++;
+                if (a[i][j] == '*') {
+                    lines[i]++;
                 }
             }
-
         }
+
     }
 
     int set_shape(int s[][], String move) {
-        int i, j, flag = 0, d = 0;
+        int i, flag = 0, d = 0;
         if (!move.equals("")) {
             for (i = 0; i < 4; i++) {
                 a[pre[i][0]][pre[i][1]] = ' ';
             }
         }
-        /*
-         * for (i = 0; i < 4; i++) { if (move.equals("a")) { a[s[i][0]][s[i][1] + 1] = '
-         * '; } else if (move.equals("d")) { a[s[i][0]][s[i][1] - 1] = ' '; } else if
-         * (move.equals("s") && s[i][0] != 0) { a[s[i][0] - 1][s[i][1]] = ' '; } }
-         */
         for (i = 0; i < 4; i++) {
             if (s[i][1] < 0 || s[i][0] < 0 || a[s[i][0]][s[i][1]] == '|' || a[s[i][0]][s[i][1]] == '*') {
                 return 2;
@@ -81,12 +74,10 @@ class board {
         }
         for (i = 0; i < 4; i++) {
             if (a[s[i][0] + 1][s[i][1]] == '-' || a[s[i][0] + 1][s[i][1]] == '*') {
-                // System.out.println(s[i][0] + " " + s[i][1]);
                 i = 0;
                 while (i < 4) {
                     a[s[i][0]][s[i][1]] = '*';
                     lines[s[i][0]]++;
-                    // System.out.println(s[i][0] + " " + s[i][1] + " " + lines[s[i][0]]);
                     if (s[i][0] == 2) {
                         return 3;
                     }
@@ -97,13 +88,6 @@ class board {
                     i++;
                 }
                 if (flag == 1) {
-                    // print_board();
-                    j = 1;
-                    while (j < w - 1) {
-                        a[s[d][0]][j] = ' ';
-                        j++;
-                    }
-                    System.out.println(lines[s[d][0]]);
                     lines[s[d][0]] = 0;
                     shift_down(s[d][0]);
                     score++;
@@ -126,13 +110,14 @@ class board {
 
         int i, j;
         for (i = 0; i < h; i++) {
+            System.out.print("\t    ");
             for (j = 0; j < w; j++) {
                 if (a[i][j] == 0)
                     System.out.print(" ");
                 else
                     System.out.print(a[i][j]);
             }
-            System.out.println();
+            System.out.println("");
         }
     }
 }

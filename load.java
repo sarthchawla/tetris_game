@@ -28,14 +28,14 @@ class load {
         start = new data();
         shift = new data();
         undo = new data();
-        System.out.println("\t\tTETRIS GAME\nd=left a=right s=down u=clockwise i=anticlockwise\n\t\tz=undo x=redo\n");
+        System.out.println("\t\t=>TETRIS GAME<=\n\t\ts+enter=PLAY ZONE\n");
 
         // intial generation of block
         myboard.boundries();
         active.generate();
         myboard.set_shape(active.a, move);
         myboard.print_board();
-        System.out.println("SCORE = " + myboard.score + "\npress s + enter to start the game");
+        System.out.println("SCORE = " + myboard.score);
         move = sc.next();
         flag_reverse = 0;
         start.push(myboard.a, active.a, active.dir, myboard.lines);
@@ -66,9 +66,10 @@ class load {
                     start.push(myboard.a, active.a, active.dir, myboard.lines);
                 }
                 System.out.print("\033[H\033[2J");
-                System.out.println("\t\tTETRIS GAME\n");
+                System.out.println(
+                        "\t\t=>TETRIS GAME<=\n\n\t\t->UNDO-REDO ZONE<-\npress z+enter=undo x+enter=redo any other key+enter=exit\n");
                 myboard.print_board();
-                System.out.println("SCORE = " + myboard.score + "\npress z or x + enter to undo and redo respectively");
+                System.out.println("SCORE = " + myboard.score + "\nenter your move");
                 move = sc.next();
                 flag_reverse = 1;
             }
@@ -82,8 +83,6 @@ class load {
             copy(myboard.pre, active.a);
             myboard.set_shape(active.a, "");
         }
-        // print_move(active.a);
-        // checks put all the checks in one function
         if (check_move == 1) {
             active.generate();
             myboard.set_shape(active.a, "");
@@ -93,16 +92,15 @@ class load {
                 active.dir = new String(active.pre_dir);
             myboard.set_shape(active.a, "");
         }
-        // print_move(active.a);
         // push and print together
         if (!move.equals("z"))
             start.push(myboard.a, active.a, active.dir, myboard.lines);
-        // start.printll();
         if (flag_reverse == 1) {
             myboard.clean_board(active.a);
             System.out.print("\033[H\033[2J");
         }
-        System.out.println("\t\tTETRIS GAME\nd=left a=right s=down u=clockwise i=anticlockwise\n\t\tz=undo x=redo\n");
+        System.out.println(
+                "\t\t=>TETRIS GAME<=\n\n\t\t->PLAY ZONE<-\nd=left a=right s=down u=clockwise i=anticlockwise q=exit\n\t\tz=UNDO-REDO ZONE\n");
         myboard.print_board();
     }
 
@@ -136,16 +134,14 @@ class load {
     public static void main(String[] args) {
 
         load l = new load();
+        int fast = 0;
         try {
             Game game = new Game();
-            // loop_break:
             while (!l.move.equals("q")) {
                 l.flag_reverse = 0;
                 System.out.print("\033[H\033[2J");
                 // handling of move in one function
                 l.move_maker();
-                // System.out.println(check_move + "****");
-                // getting key pressed put all of this in a seperate function
                 if (l.check_move == 3) {
                     // System.out.print("\033[H\033[2J");
                     System.out.println("GAME OVER\nSCORE = " + l.myboard.score);
@@ -153,8 +149,10 @@ class load {
                     throw l.p;
                 }
                 System.out.println("SCORE = " + l.myboard.score + "\nenter your move");
-                if (l.move.equals("s")) {
+                if (l.move.equals("s") && fast == 0) {
                     Thread.sleep(500);
+                } else {
+                    fast = 0;
                 }
                 KeyStroke k1 = game.getNonBlockingInput();
                 if (k1 == null) {
@@ -166,7 +164,9 @@ class load {
                     }
                     if (k1.getCharacter() == 's') {
                         l.move = new String("s");
-                        // k1 = game.getNonBlockingInput();
+                        l.move_maker();
+                        l.move = new String("s");
+                        fast = 1;
                     }
                     if (k1.getCharacter() == 'd') {
                         l.move = new String("d");
