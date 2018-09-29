@@ -95,6 +95,7 @@ class shapes {
         shape_maker();
     }
 
+    // random shape generator
     void generate() {
         shape_id = (int) (Math.random() * ((19 - 1) + 1)) + 1;
         // rotate_id = (int) (Math.random() * ((2 - 1) + 1)) + 1;

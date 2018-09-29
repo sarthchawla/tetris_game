@@ -87,7 +87,7 @@ class board {
                     a[s[i][0]][s[i][1]] = '*';
                     lines[s[i][0]]++;
                     // System.out.println(s[i][0] + " " + s[i][1] + " " + lines[s[i][0]]);
-                    if (s[i][0] == 4) {
+                    if (s[i][0] == 2) {
                         return 3;
                     }
                     if (lines[s[i][0]] == 20) {
