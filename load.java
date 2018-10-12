@@ -13,30 +13,41 @@ class load {
     board myboard;
     shapes active;
     int check_move = 0, flag_reverse = 0;
-    Exception p;
     data start, shift, undo;
+    save myfile;
 
     // Declarations in constructor and then created different function
     // for different things
     load() {
+        myfile = new save();
         sc = new Scanner(System.in);
         move = new String();
         myboard = new board();
         active = new shapes();
         check_move = 0;
-        p = new Exception();
         start = new data();
         shift = new data();
         undo = new data();
-        System.out.println("\t\t=>TETRIS GAME<=\n\t\ts+enter=PLAY ZONE\n");
-
+        System.out.println("\t\t=>TETRIS GAME<=\n\ts+enter=PLAY ZONE r+enter=resume saved\n");
         // intial generation of block
         myboard.boundries();
-        active.generate();
+        myboard.print_board();
+        move = sc.next();
+        if (move.equals("r")) {
+            String str = myfile.getfromfile(myboard.a);
+            // System.out.print(str);
+            String[] arrOfStr = str.split(" ");
+            active.dir = new String(arrOfStr[0]);
+            active.x = Integer.parseInt(arrOfStr[1]);
+            active.y = Integer.parseInt(arrOfStr[2]);
+            // System.out.println(active.dir + " " + active.x + " " + active.y);
+            active.shape_maker();
+        } else {
+            active.generate();
+        }
         myboard.set_shape(active.a, move);
         myboard.print_board();
         System.out.println("SCORE = " + myboard.score);
-        move = sc.next();
         flag_reverse = 0;
         start.push(myboard.a, active.a, active.dir, myboard.lines);
     }
@@ -134,7 +145,7 @@ class load {
     public static void main(String[] args) {
 
         load l = new load();
-        int fast = 0;
+        int fast = 0, flag_s = 0;
         try {
             Game game = new Game();
             while (!l.move.equals("q")) {
@@ -144,9 +155,8 @@ class load {
                 l.move_maker();
                 if (l.check_move == 3) {
                     // System.out.print("\033[H\033[2J");
-                    System.out.println("GAME OVER\nSCORE = " + l.myboard.score);
-                    l.move = new String("q");
-                    throw l.p;
+                    flag_s = 2;
+                    throw (null);
                 }
                 System.out.println("SCORE = " + l.myboard.score + "\nenter your move");
                 if (l.move.equals("s") && fast == 0) {
@@ -184,11 +194,20 @@ class load {
                         l.move = new String("i");
                     }
                     if (k1.getCharacter() == 'q') {
-                        l.move = new String("q");
+                        throw (null);
+                    }
+                    if (k1.getCharacter() == 'p') {
+                        l.myfile.savetofile(l.myboard.a, l.active.dir, l.active.a[0][0], l.active.a[0][1]);
+                        flag_s = 1;
+                        throw (null);
                     }
                 }
             }
         } catch (Exception e) {
+            if (flag_s == 1)
+                System.out.println("Your game has been saved");
+            if (flag_s == 2)
+                System.out.println("\t\tGAME OVER YOU LOSE\nSCORE = " + l.myboard.score);
             System.out.println("Press any key + enter to exit...");
             l.move = l.sc.next();
         }

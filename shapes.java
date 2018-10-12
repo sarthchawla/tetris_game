@@ -8,6 +8,7 @@ class shapes {
     public int a[][];
 
     void shape_maker() {
+        a = new int[4][2];
         a[0][0] = x;
         a[0][1] = y;
         int i = 0, j = 1, flag = 0;
@@ -101,7 +102,6 @@ class shapes {
         // rotate_id = (int) (Math.random() * ((2 - 1) + 1)) + 1;
         x = 0;
         y = (int) (Math.random() * ((16 - 4) + 1)) + 4;
-        a = new int[4][2];
         // shape_id = 19;
         switch (shape_id) {
         case 1:
