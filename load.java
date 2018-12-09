@@ -78,7 +78,7 @@ class load {
                 }
                 System.out.print("\033[H\033[2J");
                 System.out.println(
-                        "\t\t=>TETRIS GAME<=\n\n\t\t->UNDO-REDO ZONE<-\npress z+enter=undo x+enter=redo any other key+enter=exit\n");
+                        "\t\t=>TETRIS GAME<=\n\n\t\t->UNDO-REDO ZONE<-\npress z+enter=undo x+enter=redo any_other_key+enter=exit\n");
                 myboard.print_board();
                 System.out.println("SCORE = " + myboard.score + "\nenter your move");
                 move = sc.next();
@@ -111,7 +111,7 @@ class load {
             System.out.print("\033[H\033[2J");
         }
         System.out.println(
-                "\t\t=>TETRIS GAME<=\n\n\t\t->PLAY ZONE<-\nd=left a=right s=down u=clockwise i=anticlockwise q=exit\n\t\tz=UNDO-REDO ZONE\n");
+                "\t\t=>TETRIS GAME<=\n\n\t\t->PLAY ZONE<-\nd=left a=right s=down u=clockwise i=anticlockwise p=save q=exit\n\t\tz=UNDO-REDO ZONE\n");
         myboard.print_board();
     }
 
